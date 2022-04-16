@@ -1,0 +1,62 @@
+- hosts: "*"
+  become: yes
+
+  pre_tasks:
+    - name: check storage space - before
+      shell: df -h
+      register: check_storage_space_before
+
+    - name: print storage space
+      debug:
+        msg: "{{ check_storage_space_before.stdout_lines }}"
+
+    - name: apt autoremove check
+      command: apt-get -y --dry-run autoremove
+      register: apt_autoremove_output
+
+    - name: print apt autoremove packages
+      debug:
+        msg: "{{ apt_autoremove_output.stdout_lines }}"
+
+    - name:
+      apt:
+       update_cache: yes
+
+    - name:
+      command: apt list --upgradable
+      register: updates
+
+    - debug: var=updates.stdout_lines
+
+  tasks:
+
+#    - name: autoremove unused packages
+#      command: apt-get -y autoremove
+#      changed_when: "'The following packages will be REMOVED' in apt_autoremove_output.stdout"
+
+    - name: apt
+      apt:
+        update_cache: yes
+        upgrade: 'yes'
+
+    - name: check storage space - after
+      shell: df -h
+      register: check_storage_space_after
+
+    - name: print storage space
+      debug:
+        msg: "{{ check_storage_space_after.stdout_lines }}"
+
+    - name: Check if a reboot is needed on all servers
+      register: reboot_required_file
+      stat: path=/var/run/reboot-required get_md5=no
+
+    - name: Reboot the box if kernel updated
+      reboot:
+        msg: "Reboot initiated by Ansible for kernel updates"
+        connect_timeout: 5
+        reboot_timeout: 300
+        pre_reboot_delay: 0
+        post_reboot_delay: 30
+        test_command: uptime
+      when: reboot_required_file.stat.exists

@@ -1,0 +1,14 @@
+- hosts: ubuntu
+  become: yes
+
+  tasks:
+    - name: set up authorized keys for the arvelinger user
+      authorized_key: user=arvelinger key="{{item}}"
+      with_file:
+        - ~/.ssh/id_rsa.pub
+
+    - name: allow 'arvelinger' to use sudo without needing a password
+      lineinfile:
+        dest: /etc/sudoers
+        line: 'arvelinger ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
