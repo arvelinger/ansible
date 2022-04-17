@@ -1,0 +1,8 @@
+- hosts: "*"
+  become: yes
+
+  tasks:
+    - name: set up authorized keys for the root user
+      authorized_key: user=root key="{{item}}"
+      with_file:
+        - ~/.ssh/id_rsa.pub
