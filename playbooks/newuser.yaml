@@ -6,7 +6,7 @@
     username: [wstaw tu swojego usera bez nawiasow]
     userpass: [wstaw tu swojeg haslo bez nawiasow]
   tasks:
-    - name: Create User
+    - name: Tworzenie uzytkownika
       ansible.builtin.user:
         name: "{{ username }}"
         state: present
@@ -16,7 +16,7 @@
         groups: sudo
         append: yes
 
-    - name: Deploy SSH Public Key
+    - name: Dodawanie publicznego klucza SSH
       ansible.posix.authorized_key:
         user: "{{ username }}"
         state: present
@@ -27,7 +27,7 @@
       with_file:
         - ~/.ssh/id_rsa.pub
 
-    - name: allow '"{{ username }}"' to use sudo without needing a password
+    - name: Uzywanie sudo bez podawania hasla dla "{{ username }}"
       lineinfile:
         dest: /etc/sudoers
         line: '"{{ username }}" ALL=(ALL) NOPASSWD: ALL'
