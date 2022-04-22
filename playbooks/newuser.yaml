@@ -3,8 +3,8 @@
   become: true
   gather_facts: false
   vars:
-    username: arvelinger
-    userpass: Metalord1^
+    username: [wstaw tu swojego usera bez nawiasow]
+    userpass: [wstaw tu swojeg haslo bez nawiasow]
   tasks:
     - name: Create User
       ansible.builtin.user:
@@ -22,13 +22,13 @@
         state: present
         key: "{{ lookup('file', '/home/{{ username }}/.ssh/id_rsa.pub') }}"
 
-    - name: set up authorized keys for the arvelinger user
-      authorized_key: user=arvelinger key="{{item}}"
+    - name: set up authorized keys for the "{{ username }}" user
+      authorized_key: user="{{ username }}" key="{{item}}"
       with_file:
         - ~/.ssh/id_rsa.pub
 
-    - name: allow 'arvelinger' to use sudo without needing a password
+    - name: allow '"{{ username }}"' to use sudo without needing a password
       lineinfile:
         dest: /etc/sudoers
-        line: 'arvelinger ALL=(ALL) NOPASSWD: ALL'
+        line: '"{{ username }}" ALL=(ALL) NOPASSWD: ALL'
         validate: 'visudo -cf %s'
