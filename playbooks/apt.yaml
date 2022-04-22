@@ -2,56 +2,56 @@
   become: yes
 
   pre_tasks:
-    - name: check storage space - before
+    - name: Sprawdzanie miejsca na dysku
       shell: df -h
       register: check_storage_space_before
 
-    - name: print storage space
+    - name: ilosc pozostalego miejsca na dysku
       debug:
         msg: "{{ check_storage_space_before.stdout_lines }}"
 
-    - name: apt autoremove check
-      command: apt-get -y --dry-run autoremove
+    - name: usuwanie nieuzywanych paczek
+      command: apt-get -y autoremove
       register: apt_autoremove_output
 
-    - name: print apt autoremove packages
+    - name: paczki do usuniecia
       debug:
         msg: "{{ apt_autoremove_output.stdout_lines }}"
 
-    - name:
+    - name: odswiezenie repozytorium
       apt:
        update_cache: yes
 
-    - name:
+    - name: lista paczek do aktualizacji
       command: apt list --upgradable
       register: updates
 
     - debug: var=updates.stdout_lines
 
+    - name: Zniszczenie calej ludzkosci
+      pause:
+        prompt: Potwierdz prosze ze na pewno chcesz usunac cala ludzkosc! Sprawdz wczesniejsze dane zanim potwierdzisz enterem! Enter aby kontynuowac masowa zaglade. Ctrl+c aby przerwać usuwanie ludzkosci.
+      register: confirm_delete
+
   tasks:
-
-#    - name: autoremove unused packages
-#      command: apt-get -y autoremove
-#      changed_when: "'The following packages will be REMOVED' in apt_autoremove_output.stdout"
-
-    - name: apt
+    - name: aktualizacja repozytorium oraz zainstalowanych paczek
       apt:
         update_cache: yes
         upgrade: 'yes'
 
-    - name: check storage space - after
+    - name: weryfikacja miejsca na dysku po aktualizacji
       shell: df -h
       register: check_storage_space_after
 
-    - name: print storage space
+    - name: miejsce na dysku po aktualizacji
       debug:
         msg: "{{ check_storage_space_after.stdout_lines }}"
 
-    - name: Check if a reboot is needed on all servers
+    - name: Sprawdzam czy serwer wymaga aktualizacji
       register: reboot_required_file
       stat: path=/var/run/reboot-required get_md5=no
 
-    - name: Reboot the box if kernel updated
+    - name: restart jesli kernel byl aktualizowany
       reboot:
         msg: "Reboot initiated by Ansible for kernel updates"
         connect_timeout: 5
