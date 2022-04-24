@@ -1,4 +1,4 @@
-# Playbooki do automatyzacji podstawowych zadań (Work In Progress)
+# Ansible jako skuteczne narzędzie w codziennej pracy
 
 <p align="center">
  <img src="logo.png?raw=true" alt="Ansible" width="50%" height="50%" />
