@@ -20,7 +20,7 @@
 * [newuser.yaml](#4%EF%B8%8F⃣-fail2banyaml)
 * [fail2ban.yaml](#4%EF%B8%8F⃣-fail2banyaml)
 * [Ważne](#%EF%B8%8F-ważne)
-* [Wkład i wsparcie](#wkład-i-wsparcie)
+* [Wkład i wsparcie](#-wkład-i-wsparcie)
 
 ## 🤔 Czym jest Ansible?
 
