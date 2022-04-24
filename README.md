@@ -56,7 +56,7 @@ ssh username@adres-serwera
 Jeśli zalogowało Cię bez konieczności podawania hasła to wszystko jest gotowe.
 
 ### 🤖 Ansible
-
+***
 #### Instalacja Ansible
 
 Moim nawykiem jest odświeżanie repozytorium zanim zacznę dodawać nowe pakiety.
@@ -123,7 +123,7 @@ Przykładowy plik z adresami maszyn powinien wyglądać tak:
 ```
 
 ### 💣 Testujemy!
-
+***
 #### 1️⃣ `ssh.yaml`
 
 Zacznijmy od najprostszego playbooka `ssh.yaml`. Używam go aby wysyłać klucze do logowania poprzez SSH na maszynę docelową a także na umożliwienie mi wykonywania poleceń `sudo` bez użycia hasła.
@@ -358,7 +358,7 @@ I już!
 Let's automate the whole world!
 
 ### 🤷🏻‍♂️ Ważne
-
+***
 To są moje szablony i konfiguracje, których używam w różnych projektach i scenariuszach wdrożeniowych. Opierają się na narzędziach automatyzacji i wdrożeniowych, takich jak: [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#installing-ansible-on-ubuntu), [Docker](https://docs.docker.com/engine/install/ubuntu/), i wiele innych.
 
 💲 Stworzyłem je jako darmowe repozytorium, które możesz rozwijać i zmieniać zgodnie z Twoimi konkretnymi przypadkami użycia.
@@ -366,7 +366,7 @@ To są moje szablony i konfiguracje, których używam w różnych projektach i s
 ⚠️ Należy pamiętać, że produkty mogą się zmieniać w czasie. Robię co w mojej mocy, aby być na bieżąco z najnowszymi zmianami i wydaniami, ale proszę zrozumieć, że nie zawsze tak będzie.
 
 ### Wkład i wsparcie
-
+***
 🤝 Jeśli chcesz wnieść swój wkład w ten projekt, utwórz pull request dla niezbędnych zmian.
 
 
