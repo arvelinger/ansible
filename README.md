@@ -43,8 +43,8 @@ Aby playbook poprawnie wykonał swoje założone taski potrzebujesz maszyny z li
 Zacznij od wygenerowania kluczy SSH.
 W konsoli wpisujemy:
 
-```bash
-ssh-keygen -t rsa -b 4096
+```console
+$ ssh-keygen -t rsa -b 4096
 ``` 
 
 Gdzie:
