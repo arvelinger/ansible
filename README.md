@@ -383,7 +383,7 @@ To są moje szablony i konfiguracje, których używam w różnych projektach i s
 
 ⚠️ Należy pamiętać, że produkty mogą się zmieniać w czasie. Robię co w mojej mocy, aby być na bieżąco z najnowszymi zmianami i wydaniami, ale proszę zrozumieć, że nie zawsze tak będzie.
 
-### Wkład i wsparcie
+### 👾 Wkład i wsparcie
 ***
 🤝 Jeśli chcesz wnieść swój wkład w ten projekt, utwórz pull request dla niezbędnych zmian.
 
