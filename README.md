@@ -268,6 +268,80 @@ TASK [Zniszczenie calej ludzkosci] *********************************************
 Potwierdz prosze ze na pewno chcesz usunac cala ludzkosc! Sprawdz wczesniejsze dane zanim potwierdzisz enterem! Enter aby kontynuowac masowa zaglade. Ctrl+c aby przerwać usuwanie ludzkosci.:
 ```
 
+I to tak naprawdę tyle!
+
+A co jeśli na serwerze masz pakiety których nie chcesz aktualizować?
+
+To nic trudnego! Przede wszystkim wykorzystajmy to co daje nam dostawca systemu. Wyłącz/zablokuj pakiet za pomocą `apt-mark` z opcją wstrzymania/oddania.
+Przede wszystkim zajrzyjmy na [manpages](http://manpages.ubuntu.com/manpages/trusty/pl/man8/apt-mark.8.html)
+
+A tam widzimy bardzo ważną dla nas informację:
+
+```bash
+       hold
+           hold jest używane do wstrzymania pakietu, co zabroni automatycznego instalowania,
+           aktualizowania lub usuwania pakietu. Polecenie jest nakładką na dpkg --set-selections,
+           stan pakietu jest zarządzany przez dpkg(1), a opcja --file nie wpływa na działanie
+           tego polecenia.
+
+       unhold
+           unhold jest używane do usunięcia stanu wstrzymania pakietu ustawionego poprzednio i
+           pozwolenia na wykonywanie wszystkich akcji na tym pakiecie.
+```
+
+A zatem użycie polecenia `apt-mark hold` wraz z nazwą pakietu zapewni nam brak aktualizacji, usuwania czy ponownej instalacji tego pakietu. 
+Przekonajmy się na własnej skórze.
+
+Na początek oczywiście aktualizacja repozytorium:
+
+```bash
+sudo apt update
+```
+
+Pojawia nam się przykładowa informacja:
+
+```bash
+43 packages can be upgraded. Run 'apt list --upgradable' to see them.
+```bash
+
+Sprawdźmy zatem jakie pakiety będą aktualizowane. A także wybierzmy taki którego nie będziemy chcieli aktualizować:
+
+```bash
+sudo apt list --upgradable
+```
+
+Pojawiła się lista. Ja z tej listy wybieram pakiet losowo aby tylko pokazać zasadę działania
+
+Zatem podajemy polecenie:
+
+```bash
+sudo apt-mark hold xz-utils
+```
+
+W odpowiedzi dostajemy informację:
+
+```bash
+xz-utils set on hold.
+```
+
+Po podaniu komendy `sudo apt upgrade -y` dostaniemy informację o zatrzymanych pakietach.
+
+```bash
+Następujące pakiety zostały zatrzymane:
+  xz-utils
+```
+
+Pakiet ten nie zostanie zaktualizowany w trakcie całego procesu.
+
+Wniosek jest prosty. Możemy zautomatyzować wiele ale to po stronie administratora leży obowiązek odpowiedniego przygotowania systemu. Można jeszcze aktualizować bezwzględnie wszystko ale to się prędzej czy później skończy katastrofą 
+
+#### 4️⃣ `fail2ban.yaml`
+
+
+
+
+
+
 
 
 
