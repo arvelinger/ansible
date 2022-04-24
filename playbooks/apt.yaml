@@ -6,17 +6,21 @@
       shell: df -h
       register: check_storage_space_before
 
-    - name: ilosc pozostalego miejsca na dysku
+    - name: Ilosc pozostalego miejsca na dysku
       debug:
         msg: "{{ check_storage_space_before.stdout_lines }}"
 
-    - name: usuwanie nieuzywanych paczek
-      command: apt-get -y autoremove
+    - name: Sprawdzanie nieuzywanych pakietow
+      command: apt-get -y --dry-run autoremove
       register: apt_autoremove_output
 
-    - name: paczki do usuniecia
+    - name: Lista pakietow do usuniecia
       debug:
         msg: "{{ apt_autoremove_output.stdout_lines }}"
+
+    - name: Usuwanie zbędnych pakietow
+      command: apt-get -y --dry-run autoremove
+      register: apt_autoremove_output
 
     - name: odswiezenie repozytorium
       apt:
