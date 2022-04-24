@@ -4,6 +4,24 @@
  <img src="logo.png?raw=true" alt="Ansible" width="50%" height="50%" />
 </p>
 
+## Spis treści
+* [Czym jest Ansible](#-czym-jest-ansible)
+* [Wymagania do działania](#-wymagania-do-działania)
+* [Startujemy](#-startujemy)
+* [Przygotowanie](#-przygotowanie)
+* [Ansible](#-ansible)
+* [Instalacja Ansible](#instalacja-ansible)
+* [Przygotowania do lenis.. automatyzacji!](#przygotowania-do-lenis-automatyzacji)
+* [Dodajemy hosty](#dodajemy-hosty)
+* [Testujemy!](#-testujemy)
+* [ssh.yaml](#1%EF%B8%8F⃣-sshyaml)
+* [newuser.yaml](#2%EF%B8%8F⃣-newuseryaml)
+* [apt.yaml](#3%EF%B8%8F⃣-aptyaml)
+* [newuser.yaml](#4%EF%B8%8F⃣-fail2banyaml)
+* [fail2ban.yaml](#4%EF%B8%8F⃣-fail2banyaml)
+* [Ważne](#%EF%B8%8F-ważne)
+* [Wkład i wsparcie](#wkład-i-wsparcie)
+
 ## 🤔 Czym jest Ansible?
 
 Ansible jest narzędziem służącym do zarządzania stanem infrastruktury. Pozwala zautomatyzować administrację konfiguracją serwerów, dostarczanie aplikacji oraz wiele innych zadań stawianych IT. Jest jednym z popularniejszych przedstawicieli narzędzi, realizujących założenia paradygmatu IaC (Infrastructure as Code), który pozwala uzyskać powtarzalne konfiguracje maszyn. Inne podobne narzędzia to m.in. Chef czy Puppet, jednak to Ansible jest według mnie najprostszy, aby zapoznać się z tego typu narzędziami. Ansible działa na zasadzie bezagentowej, tzn. nie potrzebuje instalacji żadnego dodatkowego oprogramowania na zarządzanej maszynie. Narzędzie do łączenia z zarządzanymi serwerami używa protokołu SSH. Praca z Ansible pozwala zarówno na wykonywanie komend ad-hoc, jak i na przetwarzanie wcześniej zdefiniowanych w języku YAML plików konfiguracyjnych, tzw. playbooków.
