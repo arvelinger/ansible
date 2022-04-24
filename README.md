@@ -136,7 +136,7 @@ nano playbooks/ssh.yaml
 
 Odszukujemy następujące linijki:
 
-```bash
+```ini
   vars:
     username: [wstaw tu swojego usera bez nawiasow]
     userpass: [wstaw tu swojeg haslo bez nawiasow]
@@ -144,7 +144,7 @@ Odszukujemy następujące linijki:
 
 Dla przykładu:
 
-```bash
+```ini
   vars:
     username: arvelinger
     userpass: M0st.Pow3rfull.Pas$w0rd.3veR
@@ -163,12 +163,110 @@ ansible-playbook ./playbooks/ssh.yaml --user arvelinger -k -K ./inventory/hosts
 
 I już! Tak, to wszystko! Właśnie dodałeś klucze `RSA` do logowania się poprzez `SSH` oraz zmieniłeś plik `visudo` aby ułatwić sobie pracę i zwiększyć bezpieczeństwo. 
 
+#### 2️⃣ `newuser.yaml`
 
+Ten playbook wykorzystuję aby dodać swojego usera na świeżo skonfigurowanych serwerach gdzie mam do swojej dyspozycji konto `root` albo konto `ubuntu` (co na przykład ma miejsce w przypadku świeżych instalacji na chmurze Oracle). Ze względu na to, że korzystam z WSL pod Windows 11 klucz mam zapisany na swojej roboczej maszynie. I z tej wirtualnej maszyny kopiuję to dalej. Czasami jest też tak, że system mam skonfigurowany ale potrzebuję dodać nowego użytkownika wraz z hasłem, dodać go do grupy `sudo`, `docker` czy zwyczajnie umożliwić mu `sudo` bez konieczności podawania hasła.
 
+Na początek musimy odnaleźć naszego playbooka i go zmodyfikować. Jeśli pobrałeś to repozytorium do swojego katalogu `HOME` to musimy się dostać najpierw do tego katalogu:
 
+```bash
+cd ansible
+```
 
+Otwieramy playbook'a w edytorze tekstowym:
 
+```bash
+nano playbook/newuser.yaml
+```
 
+Szukamy następujących wartości:
+
+```ini
+  vars:
+    username: [wstaw tu swojego usera bez nawiasow]
+    userpass: [wstaw tu swojeg haslo bez nawiasow]
+```
+
+I modyfikujemy je zgodnie z tym co jest tam napisane. Dla przykładu:
+
+```ini
+  vars:
+    username: BestUserEver
+    userpass: M0st.Pow3rfull.Pas$w0rd.3veR
+```
+
+W przeciwieństwie do playbook'a `ssh.yaml` tutaj podajemy login i hasło nowego użytkownika.
+Pozostaje nam jeszcze uruchomienie tego playbook'a. Co też czynimy następującą komendą:
+
+```bash
+ansible-playbook ./playbooks/newuser.yaml --user [wstaw tutaj login istniejącego konta] -i ./inventory/hosts
+```
+
+Jeśli nie masz wyłączonego żądania hasła po wprowadzeniu komendy `sudo` oraz logowania przy użyciu klucza `RSA` musisz dodać dwa atrybuty `-k` oraz `-K`. Atrybuty te sprawią, że ansible zapyta Cię o Twoje hasła, a następnie wykona komendy wykorzystując to co podałeś.
+
+Dla przykładu:
+
+```bash
+ansible-playbook ./playbooks/newuser.yaml --user [wstaw tutaj login istniejącego konta] -k -K -i ./inventory/hosts
+```
+
+Zanim ansible rozpocznie wykonywanie playbooka zobaczysz coś takiego:
+
+```bash
+SSH password: 
+BECOME password[defaults to SSH password]:
+```
+
+Dzięki temu możesz wyłaczyć użytkowników których już nie potrzebujesz i zamienić na sobie tylko znane hasła i klucze.
+Bezpieczeństwo przede wszystkim!
+
+#### 3️⃣ `apt.yaml`
+
+Przed nami mój ulubiony, a przede wszystkim najczęściej używany playbook w pracy codziennej.
+Nie jest nowością ani tajemnicą, że utrzymanie systemu operacyjnego serwera czy własnej maszyny ma krytyczny wpływ na poziom bezpieczeństwa naszej maszyny, naszych danych, a także danych naszych pozostałych użytkowników. W dzisiejszych czasach producenci oprogramowania starają się przeciwdziałać podatnościom w swoich aplikacjach. Grzechem byłoby więc nie skorzystać i utrzymywać nasz system w kiepskim stanie. Tym bardziej, że aktualizacje są przecież darmowe.
+
+Jeśli masz już przygotowany plik `hosts`, logujesz się do maszyn na których chcesz wykonać aktualizację przy użyciu kluczy `RSA` i nie musisz już podawać hasła do `sudo` to wystarczy jedna komenda. Tak! jedna komenda i `ENTER` dla potwierdzenia tego co chcesz zrobić.
+Zanim jednak przejdziemy do komendy chciałbym wyjaśnić jakie czynności ten playbook tak naprawdę wykonuje.
+
+Taski jakie kolejno wykonuje ansible na tym playbook'u:
+1. Sprawdzanie miejsca na dysku
+2. Ilość pozostałego miejsca na dysku
+3. Sprawdzanie nieużywanych pakietów
+4. Lista pakietów do usunięcia
+5. Usuwanie zbędnych pakietów
+6. Odświeżenie repozytorium
+7. Sprawdzenie pakietów do aktualizacji
+8. Lista pakietów do aktualizacji
+9. Wyrażenie zgody na eksterminację całej ludzkości (wymagane zatwierdzenie `ENTER` lub przerwanie poprzez kombinację klawiszy `CTRL+C`)
+10. Ponowne odświeżenie repozytorium oraz aktualizacja wszystkich pakietów
+11. Sprawdzenie pozostałego miejsca na dysku
+12. Pozostałe miejsce na dysku (powtórzenie tych czynności ma na celu umożliwienie weryfikacji czy nie potrzebujemy zwiększyć przestrzeni dyskowej na danej maszynie)
+13. Sprawdzanie czy był aktualizowany kernel
+14. Wykonanie restartu jeśli kernel był aktualizowany (ansible nie dokona restartu maszyn hurtowo, czeka aż każda z maszyn się uruchomi i dopiero przejdzie do restartu następnej maszyny)
+
+Jak widzisz playbook jest nakierowany na świadomą automatyzację.
+
+Nie zwlekajmy i przejdźmy od słów do czynów!
+
+Komenda aby uruchomić tego playbook'a jest bardzo prosta.
+
+```bash
+ansible-playbook ./test/playbooks/apt.yaml --user [username] -i ./test/inventory/hosts
+```
+
+Oczywiście komenda zadziała jeśli logowałeś się już na ten serwer chociaż raz. Masz dodany klucz `RSA` i włączone logowanie przy jego użyciu. A także wyłączoną konieczność podawania hasła przy `sudo`. Jeśli nie to musisz odpowiednio zmodyfikować komendę:
+
+```bash
+ansible-playbook ./test/playbooks/apt.yaml --user [username] -k -K -i ./test/inventory/hosts
+```
+
+Nie zapomnij o potwierdzeniu punktu 9!
+
+```bash
+TASK [Zniszczenie calej ludzkosci] ******************************************************************************************************************************************************************************
+[Zniszczenie calej ludzkosci]
+Potwierdz prosze ze na pewno chcesz usunac cala ludzkosc! Sprawdz wczesniejsze dane zanim potwierdzisz enterem! Enter aby kontynuowac masowa zaglade. Ctrl+c aby przerwać usuwanie ludzkosci.:
+```
 
 
 
