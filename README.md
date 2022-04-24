@@ -337,32 +337,37 @@ Wniosek jest prosty. Możemy zautomatyzować wiele ale to po stronie administrat
 
 #### 4️⃣ `fail2ban.yaml`
 
+Czym jest fail2ban? 🤔
 
+Fail2Ban jest aplikacją, która powinna być zainstalowana w zasadzie na każdej maszynie działającej pod kontrolą Unix / Linux / BSD, wystawioną na świat (zewnętrzne IP). Głównym zadaniem Fail2Ban jest blokada podejrzanych, zakończonych niepowodzeniem prób logowania się do usług świadczonych przez nasz serwer. Podsumowując zabezpiecza przed atakami typu brute force.
 
+Działanie programu Fail2Ban opiera się na analizie logów i wychwytywaniu nieautoryzowanych prób logowania się do różnego rodzaju usług (np. ssh, smtp, pop3, imap...), po czym blokuje adres IP atakującego za pomocą reguł iptables lub dodając wpis do pliku /etc/hosts.deny.
 
+Fail2Ban dostępny jest na wielu dystrybucjach jako gotowy pakiet więc instalacja jest banalnie prosta. No chyba, że masz 30 hostów na których musisz to zainstalować. Wtedy również jest to proste ale czasochłonne.
 
+Zautomatyzujmy to! 😃
 
+Tak naprawdę jeśli wykonane zostały wszystkie wcześniejsze kroki to zostaje tylko podanie komendy dla ansible:
 
+```bash
+ansible-playbook ./playbooks/fail2ban.yaml --user [username] -i ./inventory/hosts
+```
 
+I już! 
 
+Let's automate the whole world!
 
+### 🤷🏻‍♂️ Ważne
 
+To są moje szablony i konfiguracje, których używam w różnych projektach i scenariuszach wdrożeniowych. Opierają się na narzędziach automatyzacji i wdrożeniowych, takich jak: [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#installing-ansible-on-ubuntu), [Docker](https://docs.docker.com/engine/install/ubuntu/), i wiele innych.
 
+💲 Stworzyłem je jako darmowe repozytorium, które możesz rozwijać i zmieniać zgodnie z Twoimi konkretnymi przypadkami użycia.
 
+⚠️ Należy pamiętać, że produkty mogą się zmieniać w czasie. Robię co w mojej mocy, aby być na bieżąco z najnowszymi zmianami i wydaniami, ale proszę zrozumieć, że nie zawsze tak będzie.
 
+### Wkład i wsparcie
 
-
-These are my templates and configurations I use in various projects and deployment scenarios. They are based on automation and deployment tools such as [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#installing-ansible-on-ubuntu), [Docker](https://docs.docker.com/engine/install/ubuntu/), and much more.
-
-I created them as free resources to be extended by you according to your specific use cases. 
-
-### Warning
-
-⚠️ Please beware that products can change over time. I do my best to keep up with the latest changes and releases, but please understand that this won’t always be the case.
-
-### Contribution and Support
-
-🤝 If you’d like to contribute to this project, create a pull request for the necessary changes. 
+🤝 Jeśli chcesz wnieść swój wkład w ten projekt, utwórz pull request dla niezbędnych zmian.
 
 
 
