@@ -320,7 +320,7 @@ Pojawia nam się przykładowa informacja:
 
 ```bash
 43 packages can be upgraded. Run 'apt list --upgradable' to see them.
-```bash
+```
 
 Sprawdźmy zatem jakie pakiety będą aktualizowane. A także wybierzmy taki którego nie będziemy chcieli aktualizować:
 
