@@ -44,7 +44,7 @@ Zacznij od wygenerowania kluczy SSH.
 W konsoli wpisujemy:
 
 ```console
-$ ssh-keygen -t rsa -b 4096
+ssh-keygen -t rsa -b 4096
 ``` 
 
 Gdzie:
