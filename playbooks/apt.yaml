@@ -19,7 +19,7 @@
         msg: "{{ apt_autoremove_output.stdout_lines }}"
 
     - name: Usuwanie zbędnych pakietow
-      command: apt-get -y --dry-run autoremove
+      command: apt-get -y autoremove
       register: apt_autoremove_output
 
     - name: odswiezenie repozytorium
